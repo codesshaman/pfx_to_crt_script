@@ -12,16 +12,16 @@ if [ ! -f "$1" ]; then
   return 1
 fi
 
-# Запрашиваем пароль для .pfx-файла
-read -s -p "Enter password for $1: " password
-echo
-
 # Получаем путь к папке, в которой лежит файл
 folder_path=$(dirname "$1")
 
 # Получаем имя файла без расширения
 filename=$(basename "$1")
 name="${filename%.*}"
+
+# Запрашиваем пароль для .pfx-файла
+read -s -p "Enter password for $1: " password
+echo
 
 # Извлекаем сертификаты из .pfx-файла
 openssl pkcs12 -in "$1" -passin "pass:$password" -nokeys -out $folder_path/$name.crt
