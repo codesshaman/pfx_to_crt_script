@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Проверяем, что передан путь к .pfx-файлу
+if [ -z "$1" ]; then
+  echo "Usage: $0 /path/to/certificate.pfx"
+  exit 1
+fi
+
+# Проверяем, что файл существует
+if [ ! -f "$1" ]; then
+  echo "File not found: $1"
+  return 1
+fi
+
+# Запрашиваем пароль для .pfx-файла
+read -s -p "Enter password for $1: " password
+echo
+
+# Получаем путь к папке, в которой лежит файл
+folder_path=$(dirname "$1")
+
+# Получаем имя файла без расширения
+filename=$(basename "$1")
+name="${filename%.*}"
+
+# Извлекаем сертификаты из .pfx-файла
+openssl pkcs12 -in "$1" -passin "pass:$password" -nokeys -out $folder_path/$name.crt
+openssl pkcs12 -in "$1" -passin "pass:$password" -nodes -nocerts -out $folder_path/$name.key
+
+echo "Certificate and key extracted successfully to the $folder_path folder."
