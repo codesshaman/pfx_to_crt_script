@@ -1,6 +1,6 @@
 ## Install
 
-``git clone https://github.com/codesshaman/pfxer.git``
+``git clone https://github.com/codesshaman/pfxer.git`` or ``wget https://github.com/codesshaman/pfxer/blob/main/pfxer``
 
 ``cd pfxer``
 
